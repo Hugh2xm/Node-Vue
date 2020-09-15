@@ -1,33 +1,43 @@
 module.exports = app => {
     const express = require('express')
-    const router = express.Router()
-    const Catagory = require('../../models/Category')
+    const router = express.Router({
+        mergeParams: true
+    })
+    // const req.Model = require('../../models/Category')
     //CategoriesEdit
-    router.post('/categories',async (req,res)=> {
-        const model = await Catagory.create(req.body)
+    router.post('/',async (req,res)=> {
+        const model = await req.Model.create(req.body)
         res.send(model)
     })
     //修改分类的接口
-    router.put('/categories/:id',async (req,res)=> {
-        const model = await Catagory.findByIdAndUpdate(req.params.id, req.body)
+    router.put('/:id',async (req,res)=> {
+        const model = await req.Model.findByIdAndUpdate(req.params.id, req.body)
         res.send(model)
     })
     //删除分类的接口
-    router.delete('/categories/:id',async (req,res)=> {
-        const model = await Catagory.findByIdAndDelete(req.params.id, req.body)
+    router.delete('/:id',async (req,res)=> {
+        await req.Model.findByIdAndDelete(req.params.id)
         res.send({
             success: true
         })
     })
     //显示分类列表
-    router.get('/categories',async (req,res)=> {
-        const items = await Catagory.find().populate('parent').limit()
+    router.get('/',async (req,res)=> {
+        const queryOptions = {}
+        if(req.Model.modelName === 'Category') {
+            queryOptions.populate = 'parent'
+        }
+        const items = await req.Model.find().setOptions(queryOptions).limit(10)
         res.send(items)
     })
     //根据id获取数
-    router.get('/categories/:id',async (req,res)=> {
-        const model = await Catagory.findById(req.params.id)
+    router.get('/:id',async (req,res)=> {
+        const model = await req.Model.findById(req.params.id)
         res.send(model)
     })
-    app.use('/admin/api',router)
+    app.use('/admin/api/rest/:resource',async (req,res,next)=> {
+        const modelName = require('inflection').classify(req.params.resource)
+        req.Model = require(`../../models/${modelName}`)
+        next()
+    },router)
 }

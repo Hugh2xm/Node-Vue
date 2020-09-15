@@ -41,10 +41,10 @@
             async save() {
                 if (this.id) {
                     //修改
-                    await this.$http.put(`categories/${this.id}`, this.model)
+                    await this.$http.put(`rest/categories/${this.id}`, this.model)
                 } else {
                     //新建
-                    await this.$http.post('categories', this.model)
+                    await this.$http.post('rest/categories', this.model)
                 }
                 this.$router.push('/categories/list')
                 this.$message({
@@ -54,12 +54,12 @@
             },
             //修改时显示的数据
             async fetch() {
-                const res = await this.$http.get(`categories/${this.id}`)
+                const res = await this.$http.get(`rest/categories/${this.id}`)
                 this.model = res.data
             },
             //获取父级选项,下拉菜单
             async fetchParents () {
-                const res = await this.$http.get(`categories`)
+                const res = await this.$http.get(`rest/categories`)
                 this.parents = res.data
             }
         },
