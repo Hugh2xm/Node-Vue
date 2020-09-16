@@ -26,6 +26,7 @@
                 </template>
             </el-table-column>
         </el-table>
+        <h1></h1>
     </div>
 </template>
 
@@ -34,12 +35,12 @@
         name: "CategoriesList",
         data () {
             return {
-                items: []
+                items: [],
             }
         },
         methods: {
             async fetch () {
-                const res = await this.$http.get('categories')
+                const res = await this.$http.get('rest/categories')
                 this.items = res.data
             },
             async remove (row) {
@@ -48,21 +49,17 @@
                     cancelButtonText: '取消',
                     type: 'warning'
                 }).then(async () => {
-                    await this.$http.delete(`categories/${row._id}`)
+                    await this.$http.delete(`rest/categories/${row._id}`)
                     this.$message({
                         type: 'success',
                         message: '删除成功!'
                     });
                     this.fetch();
                 });
-            }
+            },
         },
         created () {
             this.fetch()
         }
     }
 </script>
-
-<style scoped>
-
-</style>
