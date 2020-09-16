@@ -40,4 +40,14 @@ module.exports = app => {
         req.Model = require(`../../models/${modelName}`)
         next()
     },router)
+
+
+    const multer  = require('multer')
+    const upload = multer({ dest: __dirname + '/../../uploads' })
+    //图片上传处理 //需要使用中间件multer
+    app.post('/admin/api/upload', upload.single('file'), async (req,res) => {
+        const file = req.file
+        file.url = `http://localhost:3000/uploads/${file.filename}`
+        res.send(file)
+    })
 }
