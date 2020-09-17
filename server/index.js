@@ -2,6 +2,8 @@ const express = require("express")
 
 const app = express()
 
+app.set('secret','zhangxiaomin')
+
 app.use(express.json())
 app.use(require('cors')())
 //静态文件托管
