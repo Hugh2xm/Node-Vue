@@ -2,7 +2,7 @@
     <div class="about">
         <h1>{{id ? '编辑':'新建'}}英雄</h1>
         <el-form label-width="120px" @submit.native.prevent="save">
-            <el-tabs :tab-position="tabPosition" value="skills">
+            <el-tabs :tab-position="tabPosition">
                 <el-tab-pane label="基础信息" >
                     <el-form-item label="名称">
                         <el-input v-model="model.name"></el-input>
@@ -74,7 +74,7 @@
                         <el-input type="textarea" v-model="model.teamTips"></el-input>
                     </el-form-item>
                 </el-tab-pane>
-                <el-tab-pane label="技能管理" name="skills">
+                <el-tab-pane label="技能管理">
                     <el-button style="margin: 1.5rem 0 2rem 3rem" @click="model.skills.push({})">
                         <i class="el-icon-plus" style="margin-right: .5rem"></i>添加技能
                     </el-button>
