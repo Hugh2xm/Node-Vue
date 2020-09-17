@@ -137,6 +137,7 @@
                 model: {
                     name: '',
                     avatar: '',
+                    skills: [],
                     scores: {
                         difficult: 0,
                         skills: 0,
